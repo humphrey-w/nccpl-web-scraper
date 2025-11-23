@@ -55,3 +55,67 @@ def get_random_user_agent(user_agents_list=None):
     # Select a random user-agent from the list
     random_user_agent = choice(user_agents_list)
     return random_user_agent
+
+
+def setup_logger(log_path='logs/scrape.log'):
+    '''Sets up the logging configuration.
+    Args:
+        log_path (str): Path to the log file.
+    '''
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
+    logging.basicConfig(
+        filename=log_path,
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+
+
+def initialize_driver(user_agent=None):
+    '''
+    Initializes the undetected Chrome driver with stealth settings.
+    Args:
+        user_agent (str): User-agent header to use.
+    Returns: An instance of the undetected Chrome driver.
+    '''
+    if user_agent is None:
+        user_agent = get_random_user_agent()
+
+    try:
+        # Set up Chrome options
+        options = uc.ChromeOptions()
+        # options.add_argument('--headless=new')
+        options.add_argument('--start-maximized')
+        options.add_argument(f'user-agent={user_agent}')
+
+        # Initialize the undetected Chrome driver
+        driver = uc.Chrome(options=options)
+
+        logging.info(f'Initializing driver with User-Agent: {user_agent}')
+
+        # Apply stealth settings to the driver
+        stealth(driver,
+                languages=["en-US", "en"],
+                vendor="Google Inc.",
+                platform="Win32",
+                webgl_vendor="Intel Inc.",
+                renderer="Intel Iris OpenGL Engine",
+                fix_hairline=True)
+
+        logging.info('Driver initialized successfully.')
+
+        return driver
+    except Exception as e:
+        logging.ERROR(f'Driver error: {e}')
+
+
+def fetch(url):
+    driver = initialize_driver()
+    driver.get(url)
+    driver.save_screenshot('data/raw/screenshot.png')
+    driver.quit()
+
+
+if __name__ == '__main__':
+    setup_logger()
+    url = 'https://www.nccpl.com.pk/market-information'
+    fetch(url)
