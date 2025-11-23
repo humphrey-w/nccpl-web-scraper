@@ -111,6 +111,9 @@ def initialize_driver(user_agent=None):
 def fetch(url):
     driver = initialize_driver()
     driver.get(url)
+    WebDriverWait(driver, 60).until(
+        EC.element_to_be_clickable((By.ID, 'fipiNormalDateFilter'))
+    )
     driver.save_screenshot('data/raw/screenshot.png')
     driver.quit()
 
