@@ -1,0 +1,4 @@
+Proxy list from https://github.com/TheSpeedX/PROXY-List
+
+185.148.107.61:80
+188.42.88.29:80

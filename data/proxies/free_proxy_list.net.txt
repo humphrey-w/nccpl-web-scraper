@@ -1,0 +1,6 @@
+Free proxies from free-proxy-list.net
+Updated at 2025-11-23 07:42:02 UTC.
+
+123.30.154.171:7777
+133.18.234.13:80
+32.223.6.94:80
