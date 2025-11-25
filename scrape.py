@@ -172,7 +172,7 @@ def initialize_driver(user_agent=None, proxy=None):
         options = uc.ChromeOptions()
         # options.add_argument('--headless=new')
         options.add_argument('--start-maximized')
-        options.add_argument(f'--proxy-server={proxy}')
+        options.add_argument(f'--proxy-server={proxy.get('http')}')
         options.add_argument(f'--user-agent={user_agent}')
 
         # Initialize the undetected Chrome driver
